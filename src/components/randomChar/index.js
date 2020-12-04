@@ -5,14 +5,14 @@ import Spinner from "../spinner";
 import "./randomChar.css";
 
 const RandomChar = () => {
-    let state = {
+    const state = {
         char: {},
         loading: true,
         error: false,
     };
 
     const [data, setData] = useState(state);
-    let { char, loading, error } = data;
+    const { char, loading, error } = data;
 
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
@@ -20,10 +20,11 @@ const RandomChar = () => {
 
     useEffect(() => {
         const got = new gotService();
-        const id = Math.floor(Math.random() * 140 + 25);
-        got.getCharacter(id)
-            .then(onCharLoaded)
-            .catch(onError);
+        const interval = setInterval(() => {
+            const id = Math.floor(Math.random() * 140 + 25);
+            got.getCharacter(id).then(onCharLoaded).catch(onError);
+        }, 1500);
+        return () => clearInterval(interval);
     }, []);
 
     function onCharLoaded(char) {
@@ -32,7 +33,6 @@ const RandomChar = () => {
             loading: false,
             error: false,
         });
-        console.log(char);
     }
     function onError() {
         setData({ loading: false, error: true });
@@ -48,7 +48,7 @@ const RandomChar = () => {
 };
 
 const View = ({ char }) => {
-    let { name, gender, born, died, culture } = char;
+    const { name, gender, born, died, culture } = char;
     return (
         <>
             <h4>Random Character: {name}</h4>

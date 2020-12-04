@@ -11,7 +11,7 @@ export default class GotService {
     }
 
     async getAllCharacters() {
-        const res = await this.getResource("/characters?page=5&pageSize=10");
+        const res = await this.getResource(`/characters?page=5&pageSize=10`);
         return res.map(this._transformCharacter);
     }
     async getCharacter(id) {
@@ -42,11 +42,11 @@ export default class GotService {
     }
     _transformCharacter(char) {
         return {
-            name: this.isSet(char.name),
-            gender: this.isSet(char.gender),
-            born: this.isSet(char.born),
-            died: this.isSet(char.died),
-            culture: this.isSet(char.culture),
+            name: char.name,
+            gender: char.gender,
+            born: char.born,
+            died: char.died,
+            culture: char.culture,
         };
     }
 
