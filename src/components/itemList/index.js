@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
-import gotService from "../../services/gotService";
 import ErrorMessage from "../error";
 import Spinner from "../spinner";
 import "./itemList.css";
 
-const ItemList = ({ onCharSelected }) => {
+const ItemList = ({ onItemSelected, getData, renderItem }) => {
     const state = {
-        charList: null,
+        itemList: null,
         error: false,
     };
 
     const [data, setData] = useState(state);
-    let { charList, error } = data;
+    let { itemList: charList, error } = data;
 
     useEffect(() => {
-        const got = new gotService();
-        got.getAllCharacters().then((charList) => {
-            setData({ charList, error: false });
+        getData().then((charList) => {
+            setData({ itemList: charList, error: false });
         });
-    }, []);
+    }, [getData]);
 
     if (!charList) {
         return <Spinner />;
@@ -26,14 +24,15 @@ const ItemList = ({ onCharSelected }) => {
     const items = renderItems(charList);
 
     function renderItems(arr) {
-        return arr.map((item, i) => {
+        return arr.map((item) => {
+            const label = renderItem(item);
             return (
                 <li
-                    key={i}
+                    key={item.id}
                     className="list-group-item"
-                    onClick={() => onCharSelected(41 + i)}
+                    onClick={() => onItemSelected(item.id)}
                 >
-                    {item.name}
+                    {label}
                 </li>
             );
         });
