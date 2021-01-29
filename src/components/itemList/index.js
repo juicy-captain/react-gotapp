@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import ErrorMessage from "../error";
 import Spinner from "../spinner";
 import "./itemList.css";
 
 const ItemList = ({ onItemSelected, getData, renderItem }) => {
     const state = {
         itemList: null,
-        error: false,
     };
 
     const [data, setData] = useState(state);
-    let { itemList: charList, error } = data;
+    let { itemList: charList } = data;
 
     useEffect(() => {
         getData().then((charList) => {

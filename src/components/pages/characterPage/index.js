@@ -21,7 +21,7 @@ const CharacterPage = () => {
     );
 
     const itemDetails = (
-        <ItemDetails itemId={selectedChar} getData={got.getAllCharacters}>
+        <ItemDetails itemId={selectedChar} getData={got.getCharacter}>
             <Field field="gender" label="Gender" />
             <Field field="born" label="Born" />
             <Field field="died" label="Died" />

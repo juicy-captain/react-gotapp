@@ -19,6 +19,7 @@ const ItemDetails = ({ itemId, children, getData }) => {
         }
         getData(itemId).then((item) => {
             setChar(item);
+            console.log(item);
         });
     }, [getData, itemId]);
 
@@ -27,6 +28,7 @@ const ItemDetails = ({ itemId, children, getData }) => {
             <span className="select-error">Please select item in the list</span>
         );
     }
+
     const { name } = item;
 
     return (

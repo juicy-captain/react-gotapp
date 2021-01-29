@@ -4,7 +4,7 @@ import ErrorMessage from "../error";
 import Spinner from "../spinner";
 import "./randomChar.css";
 
-const RandomChar = () => {
+const RandomChar = ({ interval = 1000 }) => {
     const state = {
         char: {},
         loading: true,
@@ -20,12 +20,12 @@ const RandomChar = () => {
 
     useEffect(() => {
         const got = new gotService();
-        const interval = setInterval(() => {
+        const UpdateInterval = setInterval(() => {
             const id = Math.floor(Math.random() * 140 + 25);
             got.getCharacter(id).then(onCharLoaded).catch(onError);
-        }, 1500);
-        return () => clearInterval(interval);
-    }, []);
+        }, interval);
+        return () => clearInterval(UpdateInterval);
+    }, [interval]);
 
     function onCharLoaded(char) {
         setData({
