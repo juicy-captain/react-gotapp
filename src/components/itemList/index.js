@@ -2,24 +2,8 @@ import React, { useEffect, useState } from "react";
 import Spinner from "../spinner";
 import "./itemList.css";
 
-const ItemList = ({ onItemSelected, getData, renderItem }) => {
-    const state = {
-        itemList: null,
-    };
-
-    const [data, setData] = useState(state);
-    let { itemList: charList } = data;
-
-    useEffect(() => {
-        getData().then((charList) => {
-            setData({ itemList: charList, error: false });
-        });
-    }, [getData]);
-
-    if (!charList) {
-        return <Spinner />;
-    }
-    const items = renderItems(charList);
+const ItemList = ({ onItemSelected, renderItem, content }) => {
+    const items = renderItems(content);
 
     function renderItems(arr) {
         return arr.map((item) => {
@@ -39,4 +23,27 @@ const ItemList = ({ onItemSelected, getData, renderItem }) => {
     return <ul className="item-list list-group"> {items} </ul>;
 };
 
-export default ItemList;
+const withData = (View) => {
+    return (props) => {
+        const state = {
+            itemList: null,
+        };
+
+        const [data, setData] = useState(state);
+        let { itemList: content } = data;
+
+        useEffect(() => {
+            props.getData().then((content) => {
+                setData({ itemList: content, error: false });
+            });
+        }, [props]);
+
+        if (!content) {
+            return <Spinner />;
+        }
+
+        return <View {...props} content={content} />;
+    };
+};
+
+export default withData(ItemList);
